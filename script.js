@@ -1,0 +1,122 @@
+const projects = [
+  {
+    title: "AI Chatbot",
+    description:
+      "Built an intelligent chatbot using NLP techniques. Implemented intent recognition, response generation, and trained models to improve accuracy."
+  },
+  {
+    title: "Object Detection and Tracking",
+    description:
+       "Developed a real-time system for detecting and tracking multiple objects using deep learning. Implemented YOLOv3 for object detection and SORT for object tracking. " },
+  {
+    title: "Heart Disease Prediction",
+    description:
+      "Developed a predictive model to identify the likelihood of heart disease using patient health data. "  }
+];
+
+function openModal(index) {
+  document.getElementById("modal-title").innerText = projects[index].title;
+  document.getElementById("modal-description").innerText = projects[index].description;
+  document.getElementById("modal").style.display = "flex";
+  document.body.classList.add("modal-open");
+}
+
+
+function closeModal() {
+  const modal = document.getElementById("modal");
+  if (!modal) return;
+
+  modal.style.display = "none";
+  document.body.classList.remove("modal-open");
+}
+
+
+function sendMessage(e) {
+  e.preventDefault();
+  const msg = document.getElementById("success-msg");
+  if (msg) msg.textContent = "Message sent successfully!";
+  const form = document.getElementById("contactForm");
+  if (form) form.reset();
+}
+
+
+document.querySelectorAll(".icon").forEach(icon => {
+  icon.addEventListener("click", () => {
+    document.querySelectorAll(".icon").forEach(i =>
+      i.classList.remove("active")
+    );
+    icon.classList.add("active");
+  });
+});
+
+
+const skillsSection = document.querySelector(".skills-bars");
+const skillItems = document.querySelectorAll(".skill-item");
+
+if (skillsSection) {
+  const skillObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          skillItems.forEach((item, index) => {
+            setTimeout(() => {
+              item.classList.add("show");
+              const bar = item.querySelector(".bar div");
+              if (bar) bar.style.width = bar.dataset.width;
+            }, index * 400); // one by one
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+
+  skillObserver.observe(skillsSection);
+}
+
+
+const revealObserver = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("active");
+      }
+    });
+  },
+  { threshold: 0.2 }
+);
+
+document.querySelectorAll(".reveal").forEach(section => {
+  revealObserver.observe(section);
+});
+
+
+const typingEl = document.querySelector(".typing");
+
+if (typingEl) {
+  const roles = [
+    " a Tech Enthusiast",
+    "an AI Engineer",
+    "a ML Engineer"
+  ];
+
+  let index = 0;
+
+  function changeRole() {
+    typingEl.textContent = roles[index];
+    index = (index + 1) % roles.length;
+  }
+
+  changeRole();
+  setInterval(changeRole, 2000);
+}
+
+
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+  const btn = document.querySelector(".toggle-btn");
+  if (btn) {
+    btn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+  }
+}
